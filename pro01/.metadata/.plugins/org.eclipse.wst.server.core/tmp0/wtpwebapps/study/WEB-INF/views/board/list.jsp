@@ -1,0 +1,68 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="../../../resources/js/jquery-3.6.3.min.js"></script>
+<title>게시판 목록</title>
+</head>
+<body>
+	<table>
+		<thead>
+			<tr>
+				<th>글번호</th>
+				<th>제목</th>
+				<th>작성자</th>
+				<th>등록일</th>
+				<th>조회수</th>
+			</tr>
+		</thead>
+		<tbody id="boardList">
+			<c:choose>
+				<c:when test="${fn:length(boardList)> 0}">
+					<c:forEach items="${boardList}" var="board">
+						<tr data-seq="${board.seq}">
+							<td>${board.seq}</td>
+							<td>${board.title}</td>
+							<td>${board.nickname}</td>
+							<td>${board.regDate}</td>
+							<td>${board.visited}</td>
+						</tr>
+					</c:forEach>
+				</c:when>
+				<c:otherwise>
+					<!--조회된 리스트가 없을때   -->
+					<tr>
+						<td colspan="5">작성된 게시물이 없습니다.</td>
+					</tr>
+				</c:otherwise>
+			</c:choose>
+		</tbody>
+	</table>
+	<div>
+		<button onclick="goInsert()">글쓰기</button>
+	</div>
+
+</body>
+<script>
+	$(document).ready(function() {
+		$("#boardList").find("tr").on("click", function(e) {
+			// console.log($(this).data("seq"));
+			var seq = $(this).data("seq");
+            if(seq==null||seq==""){
+                alert("선택 값이 없습니다.");
+                return;
+            }
+			location.href = "./detail?seq=" + seq;
+		});
+	});
+	function goInsert(){
+		location.href="/board/insert";
+	}
+</script>
+
+</html>

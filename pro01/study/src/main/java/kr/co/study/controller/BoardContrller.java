@@ -1,0 +1,52 @@
+package kr.co.study.controller;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import kr.co.study.dto.BoardDTO;
+import kr.co.study.service.BoardService;
+
+@Controller
+@RequestMapping("/board/*")
+public class BoardContrller {
+	@Autowired
+	BoardService boardService;
+
+	@GetMapping("list")
+    public String boardList(Model model) throws Exception {
+        model.addAttribute("boardList", boardService.boardList());
+        return "board/list";
+    }
+    @GetMapping("detail")
+    public String boardDetail(HttpServletRequest request, Model model) throws Exception {
+        int seq = Integer.parseInt(request.getParameter("seq"));
+        boardService.visitedUp(seq);
+        model.addAttribute("dto", boardService.boardDetail(seq));
+        return "board/detail";
+    }
+    @GetMapping("insert")
+    public String insertForm(Model model) throws Exception {
+        return "board/insert";
+    }
+    @PostMapping("insert")
+    public String boardInsert(HttpServletRequest request, BoardDTO dto, Model model) throws Exception {
+        dto.setDepth(Integer.parseInt(request.getParameter("depth")));
+        dto.setParent_seq(Integer.parseInt(request.getParameter("parent_seq")));
+        dto.setTitle(request.getParameter("title"));
+        dto.setContent(request.getParameter("content"));
+        dto.setNickname(request.getParameter("nickname"));
+        int result = boardService.boardInsert(dto);
+        if (result > 0) {
+            model.addAttribute("msg", "등록성공");
+        } else {
+            model.addAttribute("msg", "등록실패");
+        }
+        return "redirect:list";
+    }
+}
