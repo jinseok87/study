@@ -30,28 +30,6 @@ public class BoardContrller {
         model.addAttribute("dto", boardService.boardDetail(seq));
         return "board/detail";
     }
-    @GetMapping("edit")
-    public String editForm(HttpServletRequest request, Model model) throws Exception {
-        int seq = Integer.parseInt(request.getParameter("seq"));
-        model.addAttribute("dto", boardService.boardDetail(seq));
-        return "board/edit";
-    }
-     @PostMapping("edit")
-    public String boardEdit(HttpServletRequest request, BoardDTO dto, Model model) throws Exception {
-        dto.setSeq(Integer.parseInt(request.getParameter("seq")));
-        dto.setDepth(Integer.parseInt(request.getParameter("depth")));
-        dto.setParent_seq(Integer.parseInt(request.getParameter("parent_seq")));
-        dto.setTitle(request.getParameter("title"));
-        dto.setContent(request.getParameter("content"));
-        dto.setNickname(request.getParameter("nickname"));
-        int result = boardService.boardEdit(dto);
-        if (result > 0) {
-            model.addAttribute("msg", "수정성공");
-        } else {
-            model.addAttribute("msg", "수정실패");
-        }
-        return "redirect:list";
-    }
     @GetMapping("insert")
     public String insertForm(Model model) throws Exception {
         return "board/insert";

@@ -34,7 +34,6 @@
 				</form>
 				<button onclick="goList()">리스트</button>
 				<button onclick="goRegist()">등록</button>
-				<button onclick="goDetail('${dto.seq}')">수정</button>
 			</body>
 			<script>
 				function goList() {

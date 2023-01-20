@@ -42,17 +42,19 @@
 				</table>
 				<button onclick="goList()">리스트</button>
 				<button onclick="goEdit('${dto.seq}')">수정</button>
-				<button onclick="goDetail('${dto.seq}')">삭제</button>
+				<button onclick="goDelete('${dto.seq}')">삭제</button>
 			</body>
 			<script>
 				function goList(){
 					location.href="./list";
 				}
 				function goEdit(seq) {
-						location.href = "./edit?seq"+seq;
+						location.href = "./edit?seq="+seq;
 				}
 				function goDelete(seq) {
-						location.href = "./delete?seq" + seq;
+					if(confirm("삭제하시겠습니까?")){
+						location.href = "./delete?seq=" + seq;
+					}
 				}
 			</script>
 

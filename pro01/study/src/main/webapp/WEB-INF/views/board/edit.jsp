@@ -12,28 +12,30 @@
 			</head>
 
 			<body>
-				<form name="board" action="/board/insert" method="post">
-					<input type="hidden" type="text" name="depth" value="${depth}">
-					<input type="hidden" type="text" name="parent_seq" value="${parent_seq}">
+				<form name="board" action="/board/edit" method="post">
+					<input type="hidden" type="text" name="seq" value="${dto.seq}">
+					<input type="hidden" type="text" name="depth" value="${dto.depth}">
+					<input type="hidden" type="text" name="parent_seq" value="${dto.parent_seq}">
 					<table>
 						<tbody>
 							<tr>
 								<th>제목</th>
-								<td><input type="text" name="title"></td>
+								<td><input type="text" value ="${dto.title}"name="title"></td>
 							</tr>
 							<tr>
 								<th>내용</th>
-								<td><textarea name="content" cols="30" rows="10"></textarea></td>
+								<td><textarea name="content" cols="30" rows="10">${dto.content}</textarea></td>
 							</tr>
 							<tr>
 								<th>작성자</th>
-								<td><input type="text" name="nickname"></td>
+								<td><input type="text" value ="${dto.nickname}"name="nickname"></td>
 							</tr>
 						</tbody>
 					</table>
 				</form>
 				<button onclick="goList()">리스트</button>
 				<button onclick="goRegist()">등록</button>
+				<button onclick="goDetail('${dto.seq}')">수정</button>
 			</body>
 			<script>
 				function goList() {
